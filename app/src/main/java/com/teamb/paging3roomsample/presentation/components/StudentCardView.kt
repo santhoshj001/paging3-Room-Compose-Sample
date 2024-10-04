@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -28,6 +29,7 @@ fun StudentCardView(student: StudentUiModel) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
+            .requiredHeight(64.dp)
             .padding(4.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
@@ -41,18 +43,22 @@ fun StudentCardView(student: StudentUiModel) {
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.onBackground),
+                    .background(MaterialTheme.colorScheme.secondaryContainer),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = student.rollNumber.toString(),
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color.White
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
                 )
             }
             Spacer(modifier = Modifier.width(16.dp))
             Column {
-                Text(text = student.name, style = MaterialTheme.typography.headlineSmall)
+                Text(
+                    text = student.name,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
             }
         }
     }

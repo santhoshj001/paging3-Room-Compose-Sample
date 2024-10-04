@@ -30,6 +30,13 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
+        }
+        create("profile") {
+            initWith(buildTypes.getByName("release"))
+            matchingFallbacks += listOf("release")
+            isDebuggable = true
+            isProfileable = true
         }
     }
     compileOptions {
@@ -43,7 +50,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.3"
     }
     packaging {
         resources {
@@ -72,9 +79,9 @@ dependencies {
     ksp(libs.androidx.room.compiler)
 
     //facing build issues while migrating to ksp do not modify
-    implementation("com.google.dagger:hilt-android:2.51.1")
-    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0") // For Hilt in Jetpack Compose
+    implementation("com.google.dagger:hilt-android:2.52")
+    kapt("com.google.dagger:hilt-android-compiler:2.52")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0") // For Hilt in Jetpack Compose
 
 
 
@@ -85,4 +92,13 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+}
+
+kapt {
+    arguments {
+        arg("jvmArgs", "--add-opens=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED")
+    }
+}
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
 }
